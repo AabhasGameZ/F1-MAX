@@ -1,0 +1,1302 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Ultimate Experience</title>
+    <style>
+        /* Base styles and carbon fiber background */
+        :root {
+            --carbon-black: #1a1a1a;
+            --carbon-light: #2a2a2a;
+            --gold: #ffd700;
+            --f1-red: #ff1801;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Titillium Web', sans-serif;
+            background-color: var(--carbon-black);
+            color: white;
+            background-image: 
+                linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow-x: hidden;
+        }
+        
+        /* Carbon fiber texture */
+        .carbon-fiber {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+                linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+                linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+                linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+                linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+                linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+            background-color: #131313;
+            background-size: 20px 20px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        /* Header styling */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            position: relative;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--f1-red);
+            text-shadow: 0 0 10px rgba(255, 24, 1, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: var(--gold);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--f1-red);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--f1-red);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero section with animated car */
+        .hero {
+            height: 80vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 24, 1, 0.7);
+        }
+        
+        .hero h1 span {
+            color: var(--f1-red);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--f1-red);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 30px;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border: 2px solid var(--f1-red);
+        }
+        
+        .cta-button:hover {
+            background: transparent;
+            color: var(--f1-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 24, 1, 0.3);
+        }
+        
+        /* Animated F1 car */
+        .f1-car {
+            position: absolute;
+            bottom: 0;
+            left: -200px;
+            width: 200px;
+            height: 70px;
+            background: var(--f1-red);
+            border-radius: 10px 50px 5px 5px;
+            animation: drive 15s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 24, 1, 0.7);
+        }
+        
+        .f1-car::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            width: 60px;
+            height: 30px;
+            background: #333;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .f1-car::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            width: 20px;
+            height: 20px;
+            background: #111;
+            border-radius: 50%;
+        }
+        
+        .wheel {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #111;
+            border-radius: 50%;
+            bottom: -15px;
+            border: 3px solid #333;
+        }
+        
+        .front-wheel {
+            right: 30px;
+        }
+        
+        .back-wheel {
+            left: 30px;
+        }
+        
+        @keyframes drive {
+            0% {
+                left: -200px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Section styling */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--f1-red);
+        }
+        
+        /* Tracks section */
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .track-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .track-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .track-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .track-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .track-card:hover .track-image img {
+            transform: scale(1.1);
+        }
+        
+        .track-info {
+            padding: 20px;
+        }
+        
+        .track-info h3 {
+            margin-top: 0;
+            color: var(--gold);
+        }
+        
+        .track-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--f1-red);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        /* Cars section */
+        .cars-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        .car-card {
+            width: 300px;
+            perspective: 1000px;
+        }
+        
+        .car-inner {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .car-card:hover .car-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .car-front, .car-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .car-front {
+            background: linear-gradient(45deg, rgba(26, 26, 26, 0.9), rgba(42, 42, 42, 0.9));
+            border: 2px solid var(--gold);
+        }
+        
+        .car-back {
+            background: linear-gradient(45deg, rgba(255, 24, 1, 0.8), rgba(255, 215, 0, 0.8));
+            transform: rotateY(180deg);
+            color: black;
+        }
+        
+        .car-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--f1-red);
+        }
+        
+        .car-specs {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        
+        .car-specs li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        /* Legends section */
+        .legends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .legend-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .legend-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 24, 1, 0.2);
+        }
+        
+        .legend-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .legend-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .legend-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .legend-name {
+            margin: 0;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+        
+        .legend-years {
+            color: var(--f1-red);
+            margin: 5px 0;
+        }
+        
+        .legend-info {
+            padding: 20px;
+        }
+        
+        .legend-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        /* Trophies section */
+        .trophies-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .trophy {
+            width: 200px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .trophy-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .trophy-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            transition: all 0.5s;
+        }
+        
+        .trophy:hover .trophy-image img {
+            transform: translateY(-10px) rotate(5deg);
+            filter: drop-shadow(0 0 15px var(--gold));
+        }
+        
+        .trophy-name {
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--gold);
+        }
+        
+        .trophy-year {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Speedometer section */
+        .speedometer-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 800px;
+            position: relative;
+            border: 2px solid var(--f1-red);
+            box-shadow: 0 0 30px rgba(255, 24, 1, 0.3);
+        }
+        
+        .speedometer {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .speedometer-display {
+            width: 100%;
+            height: 100%;
+            border: 10px solid #333;
+            border-radius: 50%;
+            position: relative;
+            background: #111;
+            box-shadow: 0 0 20px rgba(255, 24, 1, 0.5);
+        }
+        
+        .speedometer-needle {
+            position: absolute;
+            width: 5px;
+            height: 130px;
+            background: var(--f1-red);
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+            transform-origin: bottom center;
+            transition: transform 2s cubic-bezier(0.215, 0.610, 0.355, 1);
+            z-index: 2;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .speedometer-needle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--f1-red);
+            border-radius: 50%;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .speedometer-markers {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+        }
+        
+        .speedometer-marker {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: #666;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+        
+        .speedometer-marker.major {
+            height: 15px;
+            background: #aaa;
+            width: 3px;
+        }
+        
+        .speedometer-labels {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+        }
+        
+        .speedometer-label {
+            position: absolute;
+            color: white;
+            font-size: 0.8rem;
+            transform: translateX(-50%);
+        }
+        
+        .speed-value {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--f1-red);
+        }
+        
+        .speed-unit {
+            font-size: 1rem;
+            color: #aaa;
+        }
+        
+        .rpm-bars {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            height: 30px;
+            gap: 2px;
+        }
+        
+        .rpm-bar {
+            width: 5px;
+            background: #333;
+            transition: background 0.3s;
+        }
+        
+        .rpm-bar.active {
+            background: var(--f1-red);
+        }
+        
+        .speed-controls {
+            margin-top: 30px;
+        }
+        
+        .speed-slider {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--f1-red);
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--f1-red);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: var(--f1-red);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 24, 1, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 24, 1, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 24, 1, 0);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .speedometer {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="carbon-fiber"></div>
+    
+    <header>
+        <div class="header-content">
+            <div class="logo">F1<span>ULTIMATE</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#tracks">Tracks</a></li>
+                    <li><a href="#cars">Cars</a></li>
+                    <li><a href="#legends">Legends</a></li>
+                    <li><a href="#trophies">Trophies</a></li>
+                    <li><a href="#speedometer">Speedometer</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>F1 <span>ULTIMATE</span> EXPERIENCE</h1>
+            <p>Discover the world of Formula 1 like never before. Explore legendary tracks, iconic cars, and the drivers who made history.</p>
+            <a href="#tracks" class="cta-button">Start Your Engine</a>
+        </div>
+        <div class="f1-car">
+            <div class="wheel front-wheel"></div>
+            <div class="wheel back-wheel"></div>
+        </div>
+    </section>
+    
+    <section id="tracks">
+        <div class="section-title">
+            <h2>Iconic Tracks</h2>
+        </div>
+        <div class="tracks-grid">
+            <div class="track-card">
+                <div class="track-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Monaco_Grand_Prix_2019_%2848320069107%29.jpg/1920px-Monaco_Grand_Prix_2019_%2848320069107%29.jpg" alt="Monaco Circuit">
+                </div>
+                <div class="track-info">
+                    <h3>Circuit de Monaco</h3>
+                    <p>The most prestigious and demanding street circuit in Formula 1, known for its tight corners, tunnel section, and glamorous setting.</p>
+                    <div class="track-stats">
+                        <div class="stat">
+                            <div class="stat-value">3.337km</div>
+                            <div class="stat-label">Length</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">78</div>
+                            <div class="stat-label">Laps</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">19</div>
+                            <div class="stat-label">Turns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="track-card">
+                <div class="track-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Silverstone_2020_Turn_6.jpg/1920px-Silverstone_2020_Turn_6.jpg" alt="Silverstone Circuit">
+                </div>
+                <div class="track-info">
+                    <h3>Silverstone Circuit</h3>
+                    <p>Home of the British Grand Prix and the first ever Formula 1 race in 1950. Known for its high-speed corners and challenging layout.</p>
+                    <div class="track-stats">
+                        <div class="stat">
+                            <div class="stat-value">5.891km</div>
+                            <div class="stat-label">Length</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">52</div>
+                            <div class="stat-label">Laps</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Turns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="track-card">
+                <div class="track-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Spa_Francorchamps_Circuit_%281986%29.svg/1920px-Spa_Francorchamps_Circuit_%281986%29.svg.png" alt="Spa-Francorchamps">
+                </div>
+                <div class="track-info">
+                    <h3>Spa-Francorchamps</h3>
+                    <p>One of the most challenging and beloved tracks in F1, featuring elevation changes, unpredictable weather, and the famous Eau Rouge.</p>
+                    <div class="track-stats">
+                        <div class="stat">
+                            <div class="stat-value">7.004km</div>
+                            <div class="stat-label">Length</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">44</div>
+                            <div class="stat-label">Laps</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">19</div>
+                            <div class="stat-label">Turns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="track-card">
+                <div class="track-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Monza_circuit_%281989%29.svg/1920px-Monza_circuit_%281989%29.svg.png" alt="Monza Circuit">
+                </div>
+                <div class="track-info">
+                    <h3>Autodromo Nazionale Monza</h3>
+                    <p>Known as the "Temple of Speed," Monza is the fastest circuit on the F1 calendar, with long straights and historic banking.</p>
+                    <div class="track-stats">
+                        <div class="stat">
+                            <div class="stat-value">5.793km</div>
+                            <div class="stat-label">Length</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">53</div>
+                            <div class="stat-label">Laps</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">11</div>
+                            <div class="stat-label">Turns</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="cars">
+        <div class="section-title">
+            <h2>Legendary Cars</h2>
+        </div>
+        <div class="cars-container">
+            <div class="car-card">
+                <div class="car-inner">
+                    <div class="car-front">
+                        <div class="car-name">McLaren MP4/4</div>
+                        <p>1988 Championship Winner</p>
+                    </div>
+                    <div class="car-back">
+                        <h3>Specifications</h3>
+                        <ul class="car-specs">
+                            <li>Engine: Honda RA168E 1.5L V6 Turbo</li>
+                            <li>Power: 650-700 hp</li>
+                            <li>Top Speed: 330+ km/h</li>
+                            <li>Wins: 15 out of 16 races (1988)</li>
+                            <li>Drivers: Senna, Prost</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <div class="car-inner">
+                    <div class="car-front">
+                        <div class="car-name">Ferrari F2004</div>
+                        <p>Most Dominant Ferrari</p>
+                    </div>
+                    <div class="car-back">
+                        <h3>Specifications</h3>
+                        <ul class="car-specs">
+                            <li>Engine: Ferrari 053 3.0L V10</li>
+                            <li>Power: 865-900 hp</li>
+                            <li>Top Speed: 369 km/h</li>
+                            <li>Wins: 15 out of 18 races (2004)</li>
+                            <li>Drivers: Schumacher, Barrichello</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <div class="car-inner">
+                    <div class="car-front">
+                        <div class="car-name">Mercedes W11</div>
+                        <p>2020 Championship Winner</p>
+                    </div>
+                    <div class="car-back">
+                        <h3>Specifications</h3>
+                        <ul class="car-specs">
+                            <li>Engine: Mercedes-AMG F1 M11</li>
+                            <li>Power: 950+ hp</li>
+                            <li>Top Speed: 370+ km/h</li>
+                            <li>Wins: 13 out of 17 races (2020)</li>
+                            <li>Drivers: Hamilton, Bottas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="car-card">
+                <div class="car-inner">
+                    <div class="car-front">
+                        <div class="car-name">Red Bull RB18</div>
+                        <p>2022 Championship Winner</p>
+                    </div>
+                    <div class="car-back">
+                        <h3>Specifications</h3>
+                        <ul class="car-specs">
+                            <li>Engine: Red Bull RBPTH001</li>
+                            <li>Power: 950+ hp</li>
+                            <li>Top Speed: 350+ km/h</li>
+                            <li>Wins: 17 out of 22 races (2022)</li>
+                            <li>Drivers: Verstappen, Pérez</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="legends">
+        <div class="section-title">
+            <h2>Racing Legends</h2>
+        </div>
+        <div class="legends-grid">
+            <div class="legend-card">
+                <div class="legend-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Ayrton_Senna_8.jpg/800px-Ayrton_Senna_8.jpg" alt="Ayrton Senna">
+                    <div class="legend-overlay">
+                        <h3 class="legend-name">Ayrton Senna</h3>
+                        <div class="legend-years">1960-1994</div>
+                    </div>
+                </div>
+                <div class="legend-info">
+                    <p>Three-time World Champion known for his qualifying prowess, wet weather skill, and intense rivalry with Alain Prost.</p>
+                    <div class="legend-stats">
+                        <div class="stat">
+                            <div class="stat-value">41</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">65</div>
+                            <div class="stat-label">Poles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Titles</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-card">
+                <div class="legend-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Michael_Schumacher_-_2005_United_States_Grand_Prix.jpg/800px-Michael_Schumacher_-_2005_United_States_Grand_Prix.jpg" alt="Michael Schumacher">
+                    <div class="legend-overlay">
+                        <h3 class="legend-name">Michael Schumacher</h3>
+                        <div class="legend-years">1969-</div>
+                    </div>
+                </div>
+                <div class="legend-info">
+                    <p>Seven-time World Champion who dominated the sport with Ferrari in the early 2000s, holding numerous records.</p>
+                    <div class="legend-stats">
+                        <div class="stat">
+                            <div class="stat-value">91</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">68</div>
+                            <div class="stat-label">Poles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Titles</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-card">
+                <div class="legend-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lewis_Hamilton_2022_Singapore_GP.jpg/800px-Lewis_Hamilton_2022_Singapore_GP.jpg" alt="Lewis Hamilton">
+                    <div class="legend-overlay">
+                        <h3 class="legend-name">Lewis Hamilton</h3>
+                        <div class="legend-years">1985-</div>
+                    </div>
+                </div>
+                <div class="legend-info">
+                    <p>Seven-time World Champion who has broken numerous records and is known for his exceptional racecraft and consistency.</p>
+                    <div class="legend-stats">
+                        <div class="stat">
+                            <div class="stat-value">103</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">104</div>
+                            <div class="stat-label">Poles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Titles</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-card">
+                <div class="legend-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Juan_Manuel_Fangio_1956.jpg/800px-Juan_Manuel_Fangio_1956.jpg" alt="Juan Manuel Fangio">
+                    <div class="legend-overlay">
+                        <h3 class="legend-name">Juan Manuel Fangio</h3>
+                        <div class="legend-years">1911-1995</div>
+                    </div>
+                </div>
+                <div class="legend-info">
+                    <p>Five-time World Champion who dominated the first decade of Formula 1 racing with exceptional skill and sportsmanship.</p>
+                    <div class="legend-stats">
+                        <div class="stat">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">29</div>
+                            <div class="stat-label">Poles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Titles</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="trophies">
+        <div class="section-title">
+            <h2>Iconic Trophies</h2>
+        </div>
+        <div class="trophies-container">
+            <div class="trophy">
+                <div class="trophy-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Trofeo_Gran_Premio_d%27Italia.jpg/800px-Trofeo_Gran_Premio_d%27Italia.jpg" alt="Italian GP Trophy">
+                </div>
+                <div class="trophy-name">Italian GP Trophy</div>
+                <div class="trophy-year">Since 1950</div>
+            </div>
+            
+            <div class="trophy">
+                <div class="trophy-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Monaco_GP_trophy.jpg/800px-Monaco_GP_trophy.jpg" alt="Monaco GP Trophy">
+                </div>
+                <div class="trophy-name">Monaco GP Trophy</div>
+                <div class="trophy-year">Since 1929</div>
+            </div>
+            
+            <div class="trophy">
+                <div class="trophy-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/2019_Formula_1_World_Champions_Trophy.jpg/800px-2019_Formula_1_World_Champions_Trophy.jpg" alt="F1 World Championship Trophy">
+                </div>
+                <div class="trophy-name">World Championship</div>
+                <div class="trophy-year">Since 1950</div>
+            </div>
+            
+            <div class="trophy">
+                <div class="trophy-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/British_GP_Trophy.jpg/800px-British_GP_Trophy.jpg" alt="British GP Trophy">
+                </div>
+                <div class="trophy-name">British GP Trophy</div>
+                <div class="trophy-year">Since 1926</div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="speedometer">
+        <div class="section-title">
+            <h2>F1 Speedometer</h2>
+        </div>
+        <div class="speedometer-container">
+            <div class="speedometer">
+                <div class="speedometer-display">
+                    <div class="speedometer-needle"></div>
+                    <div class="speedometer-markers" id="markers"></div>
+                    <div class="speedometer-labels" id="labels"></div>
+                    <div class="speed-value">0 <span class="speed-unit">km/h</span></div>
+                </div>
+            </div>
+            <div class="rpm-bars" id="rpm-bars"></div>
+            <div class="speed-controls">
+                <input type="range" min="0" max="350" value="0" class="speed-slider" id="speed-slider">
+                <button id="rev-button" class="cta-button pulse">REV ENGINE</button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">F1<span>ULTIMATE</span></div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">History</a>
+                <a href="#">Teams</a>
+                <a href="#">Drivers</a>
+                <a href="#">Calendar</a>
+                <a href="#">News</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon">F</a>
+                <a href="#" class="social-icon">T</a>
+                <a href="#" class="social-icon">I</a>
+                <a href="#" class="social-icon">Y</a>
+            </div>
+            <div class="copyright">© 2023 F1 Ultimate Experience. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create speedometer markers and labels
+            const markersContainer = document.getElementById('markers');
+            const labelsContainer = document.getElementById('labels');
+            const rpmBarsContainer = document.getElementById('rpm-bars');
+            const needle = document.querySelector('.speedometer-needle');
+            const speedValue = document.querySelector('.speed-value');
+            const speedSlider = document.getElementById('speed-slider');
+            const revButton = document.getElementById('rev-button');
+            
+            // Create markers and labels for speedometer
+            for (let i = 0; i <= 35; i++) {
+                const angle = (i * 10) - 130; // -130 to 220 degrees
+                
+                // Create marker
+                const marker = document.createElement('div');
+                marker.className = 'speedometer-marker';
+                if (i % 5 === 0) {
+                    marker.classList.add('major');
+                }
+                marker.style.transform = `rotate(${angle}deg)`;
+                markersContainer.appendChild(marker);
+                
+                // Create labels for every 50 km/h
+                if (i % 5 === 0) {
+                    const label = document.createElement('div');
+                    label.className = 'speedometer-label';
+                    const speed = i * 10;
+                    label.textContent = speed;
+                    
+                    // Position labels
+                    const radius = 40;
+                    const labelAngle = angle * (Math.PI / 180);
+                    const x = 50 + radius * Math.cos(labelAngle);
+                    const y = 50 + radius * Math.sin(labelAngle);
+                    
+                    label.style.left = `${x}%`;
+                    label.style.top = `${y}%`;
+                    labelsContainer.appendChild(label);
+                }
+            }
+            
+            // Create RPM bars
+            for (let i = 0; i < 16; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'rpm-bar';
+                bar.style.height = `${15 + (i * 0.8)}px`;
+                rpmBarsContainer.appendChild(bar);
+            }
+            
+            const rpmBars = document.querySelectorAll('.rpm-bar');
+            
+            // Update speedometer function
+            function updateSpeedometer(speed) {
+                // Calculate needle angle (-130 to 220 degrees for 0-350 km/h)
+                const angle = -130 + (speed / 350) * 350;
+                needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+                
+                // Update speed value
+                speedValue.innerHTML = `${speed} <span class="speed-unit">km/h</span>`;
+                
+                // Update RPM bars (simplified relationship between speed and RPM)
+                const rpmLevel = Math.min(16, Math.floor(speed / 22));
+                
+                rpmBars.forEach((bar, index) => {
+                    if (index < rpmLevel) {
+                        bar.classList.add('active');
+                    } else {
+                        bar.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Slider input event
+            speedSlider.addEventListener('input', function() {
+                updateSpeedometer(parseInt(this.value));
+            });
+            
+            // Rev button event
+            revButton.addEventListener('click', function() {
+                // Animate through RPM range
+                let currentSpeed = 0;
+                const targetSpeed = 350;
+                const duration = 3000; // 3 seconds
+                const steps = 60; // 60 frames per second
+                const increment = targetSpeed / (duration / (1000 / steps));
+                
+                const interval = setInterval(() => {
+                    currentSpeed += increment;
+                    if (currentSpeed >= targetSpeed) {
+                        currentSpeed = targetSpeed;
+                        clearInterval(interval);
+                        
+                        // After reaching max, gradually decrease
+                        setTimeout(() => {
+                            const decreaseInterval = setInterval(() => {
+                                currentSpeed -= increment;
+                                if (currentSpeed <= 0) {
+                                    currentSpeed = 0;
+                                    clearInterval(decreaseInterval);
+                                }
+                                speedSlider.value = currentSpeed;
+                                updateSpeedometer(currentSpeed);
+                            }, 1000 / steps);
+                        }, 1000);
+                    }
+                    speedSlider.value = currentSpeed;
+                    updateSpeedometer(currentSpeed);
+                }, 1000 / steps);
+            });
+            
+            // Initialize speedometer
+            updateSpeedometer(0);
+            
+            // Add scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all section titles and cards
+            document.querySelectorAll('.section-title, .track-card, .car-card, .legend-card, .trophy').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>9
